@@ -1,0 +1,121 @@
+{
+  "implementation": {
+    "language": "Python",
+    "libraries": [
+      "numpy",
+      "hashlib",
+      "tracemalloc",
+      "time"
+    ],
+    "platform_note": "Fill in CPU, RAM, OS, and Python version before reporting.",
+    "prototype_note": "The executable prototype uses one global matrix A and precomputed short vectors R_j such that U_j = A R_j (mod q). This keeps the construction algebraically consistent for benchmarking and update experiments."
+  },
+  "runtime_parameters": {
+    "q": 12289,
+    "n": 32,
+    "m": 48,
+    "k": 16,
+    "depth": 3,
+    "repeat": 5,
+    "r_bound": 2,
+    "trapdoor_bound": 2,
+    "seed": 12345
+  },
+  "experiments": [
+    {
+      "scenario": "single_node",
+      "parameters": {
+        "q": 12289,
+        "n": 32,
+        "m": 48,
+        "k": 16,
+        "l": 14,
+        "N": 496
+      },
+      "metrics": {
+        "commit_time_mean_s": 0.00011781999928643927,
+        "open_time_mean_s": 0.00012180000048829242,
+        "verify_time_mean_s": 9.84599995717872e-05,
+        "update_time_mean_s": 9.09999944269657e-06,
+        "proof_update_time_mean_s": 8.939999679569155e-06,
+        "proof_size_bytes": 992,
+        "public_parameter_size_bytes": 32768,
+        "memory_usage_peak_commit_bytes": 9936
+      },
+      "correctness": {
+        "single_open_verifies": true,
+        "updated_commitment_changes": true,
+        "updated_proof_verifies": true
+      }
+    },
+    {
+      "scenario": "verkle_path",
+      "parameters": {
+        "depth": 3,
+        "arity": 16,
+        "leaf_count": 4096
+      },
+      "metrics": {
+        "tree_build_time_mean_s": 0.037067900000693044,
+        "path_open_time_mean_s": 0.00037372000006143937,
+        "path_verify_time_mean_s": 0.00011765999952331185,
+        "single_leaf_update_time_mean_s": 0.03381936666604209,
+        "memory_usage_peak_build_bytes": 1627528,
+        "path_length": 3
+      },
+      "correctness": {
+        "path_verifies": true
+      }
+    },
+    {
+      "scenario": "multiple_openings",
+      "parameters": {
+        "openings": 8
+      },
+      "metrics": {
+        "multiple_open_time_mean_s": 0.0009596800002327655,
+        "multiple_verify_time_mean_s": 0.0002994400005263742
+      },
+      "correctness": {
+        "all_verify": true
+      }
+    },
+    {
+      "scenario": "merkle_baseline",
+      "parameters": {
+        "leaf_count": 256
+      },
+      "metrics": {
+        "build_time_mean_s": 0.00042933333437152516,
+        "open_time_mean_s": 3.840000135824084e-06,
+        "verify_time_mean_s": 9.259999933419749e-06,
+        "update_time_mean_s": 0.00041976666761911474,
+        "proof_size_bytes": 256,
+        "memory_usage_peak_build_bytes": 40064
+      },
+      "correctness": {
+        "proof_verifies": true
+      }
+    }
+  ],
+  "analytic_paper_profile": {
+    "q": 8388617,
+    "n": 512,
+    "m": 1024,
+    "k": 256,
+    "l": 24,
+    "N": 13312,
+    "field_element_bytes": 3,
+    "single_A_elements": 6815744,
+    "all_A_elements": 1744830464,
+    "all_U_elements": 131072,
+    "all_R_elements_if_pairwise_precomputed": 869007360,
+    "commitment_elements": 512,
+    "proof_elements": 13312,
+    "single_A_bytes": 20447232,
+    "all_A_bytes": 5234491392,
+    "commitment_bytes": 1536,
+    "proof_bytes": 39936,
+    "all_R_bytes_if_pairwise_precomputed": 2607022080
+  }
+}
